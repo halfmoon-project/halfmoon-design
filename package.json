@@ -18,7 +18,7 @@
   },
   "scripts": {
     "build": "node build/build.mjs",
-    "test": "node --test test/",
+    "test": "node --test test/*.test.mjs",
     "check": "npm run build && npm test"
   },
   "engines": {
