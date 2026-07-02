@@ -21,3 +21,8 @@ npm run check
 git add dist && git commit -m "chore: rebuild dist"   # dist 변경이 있을 때
 npm version 0.1.0                                      # 커밋 + v0.1.0 태그 생성
 ```
+
+## 라이센스
+
+[PolyForm Noncommercial 1.0.0](./LICENSE) — 개인·비상업 사용은 자유롭고,
+**상업적 사용은 별도 허락이 필요합니다** (GitHub 이슈로 문의).
