@@ -1,5 +1,8 @@
 import StyleDictionary from 'style-dictionary';
 import { writeFileSync } from 'node:fs';
+import { registerFormats } from './formats.mjs';
+
+registerFormats();
 
 const THEME = 'halfmoon';
 const PRIMITIVES = 'src/primitive/*.tokens.json';
@@ -21,6 +24,13 @@ const light = new StyleDictionary({
         format: 'css/variables',
         options: { selector: ':root' },
       }],
+    },
+    js: {
+      buildPath: OUT,
+      files: [
+        { destination: 'tokens.js', format: 'javascript/literal' },
+        { destination: 'tokens.d.ts', format: 'typescript/literal-declarations' },
+      ],
     },
   },
 });
