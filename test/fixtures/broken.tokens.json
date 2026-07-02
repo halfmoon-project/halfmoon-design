@@ -1,0 +1,6 @@
+{
+  "broken": {
+    "$type": "color",
+    "$value": "{does.not.exist}"
+  }
+}
