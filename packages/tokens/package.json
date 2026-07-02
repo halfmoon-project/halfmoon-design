@@ -11,6 +11,7 @@
     "./halfmoon/tokens.css": "./dist/halfmoon/tokens.css",
     "./halfmoon/light.css": "./dist/halfmoon/light.css",
     "./halfmoon/dark.css": "./dist/halfmoon/dark.css",
+    "./halfmoon/tailwind.css": "./dist/halfmoon/tailwind.css",
     "./halfmoon": {
       "types": "./dist/halfmoon/tokens.d.ts",
       "default": "./dist/halfmoon/tokens.js"

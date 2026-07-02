@@ -23,6 +23,9 @@ const light = new StyleDictionary({
         destination: 'light.css',
         format: 'css/variables',
         options: { selector: ':root' },
+      }, {
+        destination: 'tailwind.css',
+        format: 'css/tailwind-theme',
       }],
     },
     js: {

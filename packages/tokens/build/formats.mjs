@@ -44,4 +44,34 @@ export function registerFormats() {
     format: ({ dictionary }) =>
       `export declare const tokens: ${JSON.stringify(buildTree(dictionary.allTokens), null, 2)};\n`,
   });
+  // Tailwind v4 @theme 매핑. 값이 var(--hm-*) 참조라 @theme inline 필수 (스펙 §3).
+  // 색상은 semantic만 — primitive 노출은 "직접 참조 금지" 원칙의 유틸리티 우회가 된다.
+  StyleDictionary.registerFormat({
+    name: 'css/tailwind-theme',
+    format: ({ dictionary }) => {
+      const lines = [];
+      for (const t of dictionary.allTokens) {
+        const type = t.$type ?? t.type;
+        const path = t.path;
+        let name = null;
+        if (type === 'color' && t.filePath.includes('/semantic/')) {
+          name = `--color-${path.slice(1).join('-')}`;          // color.bg.default -> --color-bg-default
+        } else if (path[0] === 'space') {
+          name = `--spacing-${path.slice(1).join('-')}`;
+        } else if (path[0] === 'radius') {
+          name = `--radius-${path.slice(1).join('-')}`;
+        } else if (path[0] === 'font' && path[1] === 'family') {
+          name = `--font-${path.slice(2).join('-')}`;
+        } else if (path[0] === 'font' && path[1] === 'weight') {
+          name = `--font-weight-${path.slice(2).join('-')}`;
+        } else if (path[0] === 'font' && path[1] === 'lineHeight') {
+          name = `--leading-${path.slice(2).join('-')}`;
+        } else if (path[0] === 'size' && path[1] === 'font') {
+          name = `--text-${path.slice(2).join('-')}`;
+        }
+        if (name) lines.push(`  ${name}: var(--${t.name});`);   // t.name = css transform 결과 (hm-…)
+      }
+      return `@theme inline {\n${lines.join('\n')}\n}\n`;
+    },
+  });
 }
