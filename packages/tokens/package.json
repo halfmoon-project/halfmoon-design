@@ -1,6 +1,6 @@
 {
   "name": "@halfmoon/tokens",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "halfmoon design system — design tokens (DTCG source of truth)",
   "type": "module",
   "license": "PolyForm-Noncommercial-1.0.0",
