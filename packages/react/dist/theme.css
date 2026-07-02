@@ -1,0 +1,44 @@
+/* halfmoon → shadcn 변수 브리지. 컴포넌트 코드는 무수정, 테마는 이 파일이 전담. */
+@custom-variant dark (&:is([data-theme=dark] *));
+
+:root {
+  --background: var(--hm-color-bg-default);
+  --foreground: var(--hm-color-fg-default);
+  --card: var(--hm-color-bg-default);
+  --card-foreground: var(--hm-color-fg-default);
+  --popover: var(--hm-color-bg-default);
+  --popover-foreground: var(--hm-color-fg-default);
+  --primary: var(--hm-color-action-primary-bg);
+  --primary-foreground: var(--hm-color-action-primary-fg);
+  --secondary: var(--hm-color-bg-muted);
+  --secondary-foreground: var(--hm-color-fg-default);
+  --muted: var(--hm-color-bg-muted);
+  --muted-foreground: var(--hm-color-fg-muted);
+  --accent: var(--hm-color-bg-muted);
+  --accent-foreground: var(--hm-color-fg-default);
+  --destructive: var(--hm-color-status-danger);
+  --border: var(--hm-color-border-default);
+  --input: var(--hm-color-border-default);
+  --ring: var(--hm-color-border-focus);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
