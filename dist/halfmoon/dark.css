@@ -1,0 +1,22 @@
+/**
+ * Do not edit directly, this file was auto-generated.
+ */
+
+[data-theme="dark"] {
+  --hm-color-bg-default: #020617;
+  --hm-color-bg-subtle: #0f172a;
+  --hm-color-bg-muted: #1e293b;
+  --hm-color-bg-inverted: #f8fafc;
+  --hm-color-fg-default: #f8fafc;
+  --hm-color-fg-muted: #94a3b8;
+  --hm-color-fg-subtle: #64748b;
+  --hm-color-fg-inverted: #0f172a;
+  --hm-color-fg-link: #60a5fa;
+  --hm-color-border-default: #1e293b;
+  --hm-color-border-strong: #334155;
+  --hm-color-action-primary-bg: #3b82f6;
+  --hm-color-action-primary-hover: #60a5fa;
+  --hm-color-status-danger: #ef4444;
+  --hm-color-status-success: #22c55e;
+  --hm-color-status-warning: #fbbf24;
+}
