@@ -54,41 +54,40 @@
 ## 5. 빌드 파이프라인
 
 - **Style Dictionary v5** (버전 고정). 선정 이유: 웹·Flutter·RN·iOS·Android 출력을 전부 내장/표준 패턴으로 지원하는 유일한 OSS 토큰 컴파일러. Terrazzo는 웹+iOS 중심이라 탈락. 소스가 DTCG라 도구 교체가 함정이 되지 않음.
-- 하나의 `sd.config.mjs`에서 테마별 출력:
-  - **CSS**: `dist/<theme>/tokens.css` — `:root{--hm-…}` + `[data-theme="dark"]{…}` 오버라이드
-  - **Tailwind v4**: `dist/<theme>/theme.css` — `@theme` 블록 (React/Vue/Astro 공용)
-  - **TypeScript**: `dist/<theme>/tokens.ts(.d.ts)` — 단위 없는 숫자의 `as const` 객체 (웹 JS 소비 + 미래 RN 겸용)
+- 하나의 `sd.config.mjs`에서 테마별 출력 (Phase 0):
+  - **CSS**: `dist/<theme>/light.css`(`:root`) + `dist/<theme>/dark.css`(`[data-theme="dark"]`) — 내장 `css/variables` 포맷을 selector 옵션으로 2회 호출, 커스텀 포맷 0. 정적 `tokens.css`가 두 파일을 `@import`.
+  - **TypeScript**: `dist/<theme>/tokens.ts(.d.ts)` — `as const` 객체. dimension은 단위 없는 숫자(px 제거 transform), 색은 문자열, 타이포는 객체. 내장 포맷이 `as const`를 지원하지 않으므로 **소형 커스텀 포맷 1개**(수십 줄) 필요 — Phase 0 견적에 포함.
+  - **Tailwind v4 `@theme`**: **Phase 1로 이연** (shadcn/ui와 함께 도입). 결정 사항 선기록: Tailwind v4는 자기 네임스페이스(`--color-*`, `--spacing-*` 등)에서만 유틸리티를 생성하므로, `@theme` 출력은 `hm` 접두사 없이 Tailwind 네임스페이스로 매핑한다(유틸리티 생성 유지). `--hm-` 접두사는 `tokens.css`(비-Tailwind 소비자용) 전용. 두 산출물 모두 같은 소스에서 생성되므로 drift 없음.
 - **검증 = 빌드.** `style-dictionary build`가 깨진 참조·순환 참조에서 실패하는 것이 Phase 0의 유일한 검증 게이트. 커스텀 스키마 검증기는 만들지 않는다.
+  - 게이트의 범위는 **참조 무결성뿐**이다 — transform 누락 등 출력 오류는 잡지 못하며, 이는 완료 기준 (b)의 10분 레시피가 스모크 테스트로 커버한다. `brokenReferences`를 기본값(throw)에서 낮추지 않는 것이 전제.
 
 ## 6. 레포 구조
 
-독립 레포 (소비 프로젝트들과 분리). 모노레포 *모양*이지만 관리 도구는 두 번째 패키지가 생길 때까지 없음.
+독립 레포 (소비 프로젝트들과 분리). **Phase 0에서는 tokens 패키지가 곧 레포 루트다** — npm/pnpm/yarn 어느 것으로든 `github:` git 의존성이 추가 문법 없이 동작해야 하기 때문 (npm의 git 의존성은 레포 루트 package.json만 설치 가능; 서브디렉토리 설치는 pnpm 전용 문법이거나 너무 최신). 모노레포 재구성은 두 번째 패키지가 생기는 Phase 1에.
 
 ```
-halfmoon/
-├── packages/
-│   └── tokens/                      # @playtag/halfmoon-tokens (허브, 단일 소스)
-│       ├── src/
-│       │   ├── primitive/
-│       │   │   ├── color.tokens.json
-│       │   │   ├── dimension.tokens.json
-│       │   │   └── typography.tokens.json
-│       │   └── semantic/
-│       │       └── halfmoon/
-│       │           ├── light.tokens.json
-│       │           └── dark.tokens.json    # 바뀌는 토큰만
-│       ├── sd.config.mjs
-│       ├── package.json             # exports 맵: ./css ./tailwind ./ts (테마별)
-│       └── dist/                    # 생성물 (테마별 하위 디렉토리)
+halfmoon/                            # 레포 루트 = @playtag/halfmoon-tokens 패키지
+├── src/
+│   ├── primitive/
+│   │   ├── color.tokens.json
+│   │   ├── dimension.tokens.json
+│   │   └── typography.tokens.json
+│   └── semantic/
+│       └── halfmoon/
+│           ├── light.tokens.json
+│           └── dark.tokens.json     # 바뀌는 토큰만
+├── sd.config.mjs
+├── package.json                     # exports 맵: ./css ./ts (테마별)
+├── dist/                            # 생성물 — 릴리스 태그 커밋에 포함 (§9)
 ├── docs/                            # Phase 0: GitHub 렌더링 마크다운만
 │   ├── naming.md  color.md  spacing.md  typography.md
 │   └── consuming-web.md             # 10분 도입 레시피
-├── pnpm-workspace.yaml              # 한 줄 — Phase 1 확장을 무비용으로
-├── .github/workflows/tokens.yml     # PR: 빌드(=참조 무결성) / 태그: 배포
+├── .github/workflows/tokens.yml     # PR: 빌드(=참조 무결성)
 └── README.md
 ```
 
-- `packages/react/`(컴포넌트), `flutter/` 등은 해당 Phase에 추가.
+- **Phase 1에서** `packages/tokens/` + `packages/react/` 모노레포로 재구성 (pnpm-workspace, Changesets 도입과 동시). 이때 소비자는 의존성 소스를 1회 변경하는데, 같은 시점에 예정된 GitHub Packages 전환과 함께 지불하는 비용이라 추가 부담이 아니다.
+- `flutter/` 등은 해당 Phase에 추가.
 
 ## 7. 컴포넌트 전략 — "검증된 프리미티브를 테마링, 처음부터 만들지 않는다"
 
@@ -105,16 +104,17 @@ halfmoon/
 
 ## 9. 배포·버저닝
 
-- **시작: git 태그 의존성** (예: `npm install github:playtag/halfmoon#v0.1.0` — 실제 org/레포명은 호스팅 위치를 따름) — 레지스트리 인프라 0. semver가 실제로 필요한 소비 팀이 생기면 GitHub Packages(비공개 npm)로 승격.
-- 버전: 수동 `npm version` + git 태그. 패키지가 2개가 되는 순간 **Changesets** 도입 (Primer/Polaris/Spectrum 표준 스택).
+- **시작: git 태그 의존성** (예: `npm install github:playtag/halfmoon#v0.1.0` — 실제 org/레포명은 호스팅 위치를 따름) — 레지스트리 인프라 0. tokens 패키지가 레포 루트이므로(§6) 이 명령이 어떤 패키지 매니저에서든 그대로 동작한다.
+- **dist/는 릴리스 태그 커밋에 포함한다** (git 설치 시 빌드 없이 소비 가능하도록). `prepare` 스크립트로 설치 시 빌드하는 방식은 쓰지 않는다 — pnpm 10.26+가 git 의존성의 lifecycle 스크립트를 기본 차단한다. 릴리스 플로우: `build → dist/ 커밋 → npm version → git tag`.
+- 버전: 수동 `npm version` + git 태그. 패키지가 2개가 되는 순간(Phase 1) **Changesets** 도입 + GitHub Packages(비공개 npm) 승격 (Primer/Polaris/Spectrum 표준 스택).
 
 ## 10. 단계별 계획
 
 - **Phase 0 — 토큰 기반 (며칠; 유일하게 완벽해야 하는 단계)**
-  레포 + DTCG 토큰(primitive/semantic, halfmoon 테마 light+dark) + SD v5 빌드(CSS/@theme/TS) + 마크다운 가이드라인 + CI(빌드 검증, 태그 배포).
+  레포 + DTCG 토큰(primitive/semantic, halfmoon 테마 light+dark) + SD v5 빌드(CSS + TS; 소형 커스텀 TS 포맷 1개 포함) + 마크다운 가이드라인 + CI(PR마다 빌드 = 참조 무결성 검증) + 수동 릴리스 플로우(build → dist/ 커밋 → 태그).
   **완료 기준**: (a) 깨진 참조가 빌드를 실패시킨다, (b) 새 Vite React 앱이 git 의존성으로 토큰을 받아 10분 안에 테마 적용된 UI를 렌더한다(레시피 문서 그대로 따라서), (c) `data-theme` 전환만으로 다크 모드가 동작한다.
 - **Phase 1 — React 컴포넌트 (첫 제품 개발과 함께)**
-  shadcn/ui 테마링 + 핵심 컴포넌트 큐레이션 + Storybook. component 토큰 tier, Changesets, (필요 시) Turborepo는 이때 추가.
+  shadcn/ui 테마링 + 핵심 컴포넌트 큐레이션 + Storybook + **Tailwind v4 `@theme` 출력**(§5의 네임스페이스 결정대로). 레포를 `packages/*` 모노레포로 재구성, component 토큰 tier, Changesets + GitHub Packages, (필요 시) Turborepo는 이때 추가.
 - **Phase 2 — 두 번째 표면 (수요 실증 시)**
   두 번째 프레임워크/플랫폼 컴포넌트, 문서 사이트, `$deprecated` + 토큰 diff CI 게이트, 두 번째 테마(프로젝트) 온보딩.
 - **Phase 3 — 스케일아웃**
