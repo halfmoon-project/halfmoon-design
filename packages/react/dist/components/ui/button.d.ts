@@ -1,0 +1,19 @@
+import * as React from "react";
+import { VariantProps } from "class-variance-authority";
+
+//#region src/components/ui/button.d.ts
+declare const buttonVariants: (props?: ({
+  variant?: "default" | "secondary" | "destructive" | "outline" | "ghost" | "link" | null | undefined;
+  size?: "default" | "xs" | "sm" | "lg" | "icon" | "icon-xs" | "icon-sm" | "icon-lg" | null | undefined;
+} & import("class-variance-authority/types").ClassProp) | undefined) => string;
+declare function Button({
+  className,
+  variant,
+  size,
+  asChild,
+  ...props
+}: React.ComponentProps<"button"> & VariantProps<typeof buttonVariants> & {
+  asChild?: boolean;
+}): React.JSX.Element;
+//#endregion
+export { Button, buttonVariants };
