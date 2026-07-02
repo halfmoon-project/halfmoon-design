@@ -39,6 +39,9 @@
   "devDependencies": {
     "@arethetypeswrong/core": "^0.18.4",
     "@halfmoon/tokens": "workspace:*",
+    "@storybook/addon-docs": "^10.4.6",
+    "@storybook/addon-themes": "^10.4.6",
+    "@storybook/react-vite": "^10.4.6",
     "@tailwindcss/vite": "^4.3.2",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
@@ -46,6 +49,7 @@
     "publint": "^0.3.21",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
+    "storybook": "^10.4.6",
     "tailwindcss": "^4.3.2",
     "tsdown": "^0.22.3",
     "tw-animate-css": "^1.4.0",
