@@ -1,4 +1,4 @@
-name: tokens
+name: check
 on:
   push:
     branches: [main]
@@ -9,12 +9,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4   # 버전은 루트 packageManager 필드에서 읽음
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
-      - run: npm ci
-      - run: npm run build
-      # dist/는 커밋 대상 — 소스와 어긋나면 실패 (스펙 §9, 미추적 파일 포함)
-      - run: test -z "$(git status --porcelain dist)"
-      - run: npm test
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm -r run build
+      # dist/는 커밋 대상 — 소스와 어긋나면 실패 (스펙 §7, 미추적 파일 포함)
+      - run: test -z "$(git status --porcelain packages/*/dist)"
+      - run: pnpm -r run test

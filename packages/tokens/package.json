@@ -1,0 +1,30 @@
+{
+  "name": "@halfmoon/tokens",
+  "version": "0.1.0",
+  "description": "halfmoon design system — design tokens (DTCG source of truth)",
+  "type": "module",
+  "license": "PolyForm-Noncommercial-1.0.0",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    "./halfmoon/tokens.css": "./dist/halfmoon/tokens.css",
+    "./halfmoon/light.css": "./dist/halfmoon/light.css",
+    "./halfmoon/dark.css": "./dist/halfmoon/dark.css",
+    "./halfmoon": {
+      "types": "./dist/halfmoon/tokens.d.ts",
+      "default": "./dist/halfmoon/tokens.js"
+    }
+  },
+  "scripts": {
+    "build": "node build/build.mjs",
+    "test": "node --test test/*.test.mjs",
+    "check": "npm run build && npm test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "style-dictionary": "5.5.0"
+  }
+}
