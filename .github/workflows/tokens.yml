@@ -1,0 +1,20 @@
+name: tokens
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      # dist/는 커밋 대상 — 소스와 어긋나면 실패 (스펙 §9)
+      - run: git diff --exit-code dist
+      - run: npm test
