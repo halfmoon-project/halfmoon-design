@@ -3,7 +3,7 @@ import { VariantProps } from "class-variance-authority";
 
 //#region src/components/ui/badge.d.ts
 declare const badgeVariants: (props?: ({
-  variant?: "default" | "secondary" | "destructive" | "outline" | "ghost" | "link" | null | undefined;
+  variant?: "default" | "destructive" | "ghost" | "link" | "outline" | "secondary" | null | undefined;
 } & import("class-variance-authority/types").ClassProp) | undefined) => string;
 declare function Badge({
   className,

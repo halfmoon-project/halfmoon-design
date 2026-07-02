@@ -3,8 +3,8 @@ import { VariantProps } from "class-variance-authority";
 
 //#region src/components/ui/button.d.ts
 declare const buttonVariants: (props?: ({
-  variant?: "default" | "secondary" | "destructive" | "outline" | "ghost" | "link" | null | undefined;
-  size?: "default" | "xs" | "sm" | "lg" | "icon" | "icon-xs" | "icon-sm" | "icon-lg" | null | undefined;
+  variant?: "default" | "destructive" | "ghost" | "link" | "outline" | "secondary" | null | undefined;
+  size?: "default" | "icon" | "icon-lg" | "icon-sm" | "icon-xs" | "lg" | "sm" | "xs" | null | undefined;
 } & import("class-variance-authority/types").ClassProp) | undefined) => string;
 declare function Button({
   className,
