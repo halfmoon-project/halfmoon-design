@@ -19,7 +19,7 @@
   "scripts": {
     "build": "node build/build.mjs",
     "test": "node --test test/*.test.mjs",
-    "check": "npm run build && npm test"
+    "check": "pnpm run build && pnpm test"
   },
   "engines": {
     "node": ">=20"
