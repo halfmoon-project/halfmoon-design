@@ -14,12 +14,25 @@ pnpm add "github:halfmoon-mind/halfmoon-design#tokens-v0.2.0&path:packages/token
 
 > `&`는 셸 메타문자 — 반드시 따옴표로 감싼다. dist가 커밋되어 있어 설치 후 빌드가 없다.
 
+yarn/npm 프로젝트는 git 서브디렉토리 설치가 안 되므로 GitHub Release에 첨부된 tarball을 쓴다:
+
+```bash
+yarn add "@halfmoon/tokens@https://github.com/halfmoon-mind/halfmoon-design/releases/download/tokens-v0.2.0/halfmoon-tokens-0.2.0.tgz"
+```
+
 ### 2. 토큰 CSS 로드 (1분)
 
 앱 진입점(예: `src/main.tsx`)에서:
 
 ```ts
 import '@halfmoon/tokens/halfmoon/tokens.css';
+```
+
+`--hm-font-family-sans`는 **Pretendard**를 선언하지만 폰트 파일은 로드하지 않는다. 웹폰트가 필요하면 `<head>`에 추가한다 (없으면 시스템 폰트로 폴백):
+
+```html
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
 ```
 
 ### 3. 스타일에 사용 (5분)
