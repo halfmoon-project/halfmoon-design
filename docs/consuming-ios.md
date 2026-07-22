@@ -8,7 +8,28 @@
 
 Xcode → File → Add Package Dependencies → `https://github.com/halfmoon-project/halfmoon-design.git`
 
-> ⚠️ 기존 태그(`tokens-v*`)는 SPM 버전 규칙에 안 잡힌다. **Dependency Rule을 Branch(`main`) 또는 Commit으로** 지정한다. 버전 핀이 필요해지면 bare semver 태그(예: `0.4.0`)를 별도로 푸시한다.
+- Dependency Rule: **Up to Next Major Version**
+- 최소 버전: **0.4.0**
+- 앱 타깃에 추가할 product: **HalfmoonTokens**
+
+`Package.swift`에서 직접 추가한다면:
+
+```swift
+dependencies: [
+    .package(
+        url: "https://github.com/halfmoon-project/halfmoon-design.git",
+        from: "0.4.0"
+    ),
+],
+targets: [
+    .target(
+        name: "YourTarget",
+        dependencies: [
+            .product(name: "HalfmoonTokens", package: "halfmoon-design"),
+        ]
+    ),
+]
+```
 
 ## 2. 사용
 
