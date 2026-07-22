@@ -17,9 +17,16 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm -r run build
-      # dist/는 커밋 대상 — 소스와 어긋나면 실패 (스펙 §7, 미추적 파일 포함)
-      - run: test -z "$(git status --porcelain packages/*/dist)"
+      # dist/와 생성 Swift는 커밋 대상 — 소스와 어긋나면 실패 (스펙 §7, 미추적 파일 포함)
+      - run: test -z "$(git status --porcelain packages/*/dist Sources)"
       - run: pnpm -r run test
+
+  # 생성된 Swift가 실제로 컴파일되는지 — SPM 소비자(Xcode) 대리 검증
+  swift:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: xcodebuild build -scheme halfmoon-design -destination 'generic/platform=iOS Simulator' -quiet
 
   # 태그 push 시 tarball을 GitHub Release에 첨부 — yarn/npm 소비자용 (consuming-web.md 참조)
   release:

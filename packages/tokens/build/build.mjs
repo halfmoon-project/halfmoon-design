@@ -1,6 +1,7 @@
 import StyleDictionary from 'style-dictionary';
 import { writeFileSync } from 'node:fs';
 import { registerFormats } from './formats.mjs';
+import { generateSwift } from './swift.mjs';
 
 registerFormats();
 
@@ -55,10 +56,18 @@ const dark = new StyleDictionary({
         filter: (token) => token.filePath.endsWith('dark.tokens.json'),
       }],
     },
+    // 파일 없는 무변환 플랫폼 — Swift 생성용 raw 값 추출 통로 (getPlatformTokens)
+    js: { buildPath: OUT, files: [] },
   },
 });
 
 await light.buildAllPlatforms();
 await dark.buildAllPlatforms();
 writeFileSync(`${OUT}tokens.css`, "@import './light.css';\n@import './dark.css';\n");
-console.log('build done:', OUT);
+
+// Swift(SPM) 산출물 — js 플랫폼은 무변환이라 raw 값 그대로 얻는다.
+const SWIFT_OUT = '../../Sources/HalfmoonTokens/Tokens.swift';
+const lightTokens = (await light.getPlatformTokens('js')).allTokens;
+const darkTokens = (await dark.getPlatformTokens('js')).allTokens;
+writeFileSync(SWIFT_OUT, generateSwift(lightTokens, darkTokens));
+console.log('build done:', OUT, '+', SWIFT_OUT);
