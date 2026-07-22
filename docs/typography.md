@@ -20,5 +20,5 @@
 ## 폰트
 
 - `font.family.sans`: Pretendard 우선, 시스템 폰트 폴백. **폰트 로딩(웹폰트 포함)은 소비 앱 책임.**
-- weight: 400 / 500 / 600 / 700 (`font.weight.*`)
+- weight: 400 / 500 / 600 / 700 / 800 (`font.weight.*`)
 - lineHeight: 1.25 (tight) / 1.5 (normal) / 1.625 (relaxed)

@@ -9,7 +9,7 @@
 ### 1. 설치 (1분)
 
 ```bash
-pnpm add "github:halfmoon-mind/halfmoon-design#tokens-v0.2.0&path:packages/tokens"
+pnpm add "github:halfmoon-mind/halfmoon-design#tokens-v0.3.0&path:packages/tokens"
 ```
 
 > `&`는 셸 메타문자 — 반드시 따옴표로 감싼다. dist가 커밋되어 있어 설치 후 빌드가 없다.
@@ -17,7 +17,7 @@ pnpm add "github:halfmoon-mind/halfmoon-design#tokens-v0.2.0&path:packages/token
 yarn/npm 프로젝트는 git 서브디렉토리 설치가 안 되므로 GitHub Release에 첨부된 tarball을 쓴다:
 
 ```bash
-yarn add "@halfmoon/tokens@https://github.com/halfmoon-mind/halfmoon-design/releases/download/tokens-v0.2.0/halfmoon-tokens-0.2.0.tgz"
+yarn add "@halfmoon/tokens@https://github.com/halfmoon-mind/halfmoon-design/releases/download/tokens-v0.3.0/halfmoon-tokens-0.3.0.tgz"
 ```
 
 ### 2. 토큰 CSS 로드 (1분)
@@ -73,7 +73,7 @@ tokens.space['4'];              // 16 (숫자, px 없음)
 
 ```bash
 pnpm add tailwindcss @tailwindcss/vite tw-animate-css
-pnpm add "github:halfmoon-mind/halfmoon-design#tokens-v0.2.0&path:packages/tokens"
+pnpm add "github:halfmoon-mind/halfmoon-design#tokens-v0.3.0&path:packages/tokens"
 pnpm add "github:halfmoon-mind/halfmoon-design#react-v0.1.1&path:packages/react"
 ```
 
