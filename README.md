@@ -1,3 +1,5 @@
+![halfmoon 디자인 시스템 — 라이트·다크 UI와 디자인 토큰을 표현한 반달 일러스트](./docs/assets/halfmoon-readme.webp)
+
 # halfmoon
 
 공통 디자인 시스템 모노레포. 단일 소스는 DTCG 토큰(`packages/tokens/src/`)이며,
