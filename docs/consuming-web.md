@@ -17,7 +17,7 @@ pnpm add "github:halfmoon-project/halfmoon-design#tokens-v0.3.0&path:packages/to
 yarn/npm 프로젝트는 git 서브디렉토리 설치가 안 되므로 GitHub Release에 첨부된 tarball을 쓴다:
 
 ```bash
-yarn add "@halfmoon/tokens@https://github.com/halfmoon-project/halfmoon-design/releases/download/tokens-v0.3.0/halfmoon-tokens-0.3.0.tgz"
+yarn add "@halfmoon/tokens@https://github.com/halfmoon-project/halfmoon-design/releases/download/tokens-v0.3.0/halfmoon-tokens-v0.3.0.tgz"
 ```
 
 ### 2. 토큰 CSS 로드 (1분)
