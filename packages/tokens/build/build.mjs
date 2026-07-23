@@ -2,6 +2,7 @@ import StyleDictionary from 'style-dictionary';
 import { writeFileSync } from 'node:fs';
 import { registerFormats } from './formats.mjs';
 import { generateSwift } from './swift.mjs';
+import { generateKotlin } from './kotlin.mjs';
 
 registerFormats();
 
@@ -70,4 +71,8 @@ const SWIFT_OUT = '../../Sources/HalfmoonTokens/Tokens.swift';
 const lightTokens = (await light.getPlatformTokens('js')).allTokens;
 const darkTokens = (await dark.getPlatformTokens('js')).allTokens;
 writeFileSync(SWIFT_OUT, generateSwift(lightTokens, darkTokens));
-console.log('build done:', OUT, '+', SWIFT_OUT);
+
+// Kotlin(Compose) 산출물 — Swift와 같은 통로.
+const KOTLIN_OUT = '../../android/src/main/kotlin/halfmoon/tokens/Tokens.kt';
+writeFileSync(KOTLIN_OUT, generateKotlin(lightTokens, darkTokens));
+console.log('build done:', OUT, '+', SWIFT_OUT, '+', KOTLIN_OUT);
