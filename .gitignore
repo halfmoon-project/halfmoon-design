@@ -7,3 +7,4 @@ storybook-static
 android/.gradle/
 android/build/
 android/local.properties
+packages/react/storybook-static/

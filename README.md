@@ -7,6 +7,7 @@
 React 컴포넌트(`packages/react`)는 shadcn을 halfmoon 토큰 브리지로 테마링한다.
 dist/는 커밋된다 (git 설치 시 빌드 불필요).
 
+- 컴포넌트 데모(Storybook): https://halfmoon-project.github.io/halfmoon-design/
 - 사용법: `docs/consuming-web.md`
 - iOS/SPM 사용법: `docs/consuming-ios.md`
 - Android/Compose 사용법: `docs/consuming-android.md`
